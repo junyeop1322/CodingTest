@@ -5,32 +5,30 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//		StringTokenizer st;
-		Scanner sc = new Scanner(System.in);
+		StringTokenizer st;
+//		Scanner sc = new Scanner(System.in);
 		StringBuilder sb = new StringBuilder();
 		Deque<Integer> dq = new LinkedList<>();
 		
 //		st = new StringTokenizer(br.readLine());
-//		int N = Integer.parseInt(st.nextToken());
-		int N = sc.nextInt();
+		int N = Integer.parseInt(br.readLine());
+//		int N = sc.nextInt();
 		
 		for (int i = 0; i < N; i++) {
-//			st = new StringTokenizer(br.readLine());
-//			int order = Integer.parseInt(st.nextToken());
-			int order = sc.nextInt();
+			st = new StringTokenizer(br.readLine());
+			int order = Integer.parseInt(st.nextToken());
+//			int order = sc.nextInt();
 			int x = 0;
 			
 			switch(order) {
 			case 1:
-//				st = new StringTokenizer(br.readLine());
-//				x = Integer.parseInt(st.nextToken());
-				x = sc.nextInt();
+				x = Integer.parseInt(st.nextToken());
+//				x = sc.nextInt();
 				dq.offerFirst(x);
 				break;
 			case 2:
-//				st = new StringTokenizer(br.readLine());
-//				x = Integer.parseInt(st.nextToken());
-				x = sc.nextInt();
+				x = Integer.parseInt(st.nextToken());
+//				x = sc.nextInt();
 				dq.offerLast(x);
 				break;
 			case 3:
