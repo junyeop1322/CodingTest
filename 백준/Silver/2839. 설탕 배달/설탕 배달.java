@@ -1,23 +1,30 @@
-import java.util.Scanner;
+import java.util.*;
+import java.io.*;
 
 public class Main {
 
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int N = Integer.parseInt(br.readLine());
+		int ans = -1;
+		// 11 (3) 12 (4) 13 (3) 14 (4)
+		// 16 (4) 17 (5) 18 (4) 19 (5)
 
-		int n = sc.nextInt();
-		
-		if (n == 4 || n == 7) {
-			System.out.println(-1);
-		} else if (n % 5 == 0) {
-			System.out.println(n / 5);
-		} else if (n % 5 == 1 || n % 5 == 3) {
-			System.out.println((n / 5) + 1);
-		} else if (n % 5 == 2 || n % 5 == 4) {
-			System.out.println((n / 5) + 2);
+		if (N >= 5 && N != 7) {
+			if (N % 5 == 0) {
+				ans = N / 5;
+			} else if (N % 5 == 1 || N % 5 == 3) {
+				ans = (N / 5) + 1;
+			} else if (N % 5 == 2 || N % 5 == 4) {
+				ans = (N / 5) + 2;
+			}
+		} else {
+			if (N % 3 == 0) {
+				ans = N / 3;
+			}
 		}
-
-		sc.close();
+		
+		System.out.println(ans);
 	}
 
 }
