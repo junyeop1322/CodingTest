@@ -1,5 +1,5 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
 
@@ -29,13 +29,13 @@ public class Main {
 		int v = Integer.parseInt(st.nextToken());
 		int e = Integer.parseInt(st.nextToken());
 		
+		int start = Integer.parseInt(br.readLine());
 		
 		ArrayList<Node>[] graph = new ArrayList[v+1];
+		
 		for (int i = 0; i <= v; i++) {
 			graph[i] = new ArrayList<>();
 		}
-		
-		int start = Integer.parseInt(br.readLine());
 		
 		for (int i = 0; i < e; i++) {
 			st = new StringTokenizer(br.readLine());
@@ -45,20 +45,17 @@ public class Main {
 			
 			graph[from].add(new Node(to, weight));
 		}
-
 		
-		boolean[] check = new boolean[v+1];
 		int[] dist = new int[v+1];
+		boolean[] check = new boolean[v+1];
 		int INF = Integer.MAX_VALUE;
 		Arrays.fill(dist, INF);
 		dist[start] = 0;
 		
-		
 		PriorityQueue<Node> pq = new PriorityQueue<>();
-		pq.offer(new Node(start, 0));
+		pq.add(new Node(start, 0));
 		
-		
-		while (!pq.isEmpty()) {
+		while(!pq.isEmpty()) {
 			int curNo = pq.poll().no;
 			
 			if (check[curNo]) continue;
@@ -68,10 +65,9 @@ public class Main {
 				if (dist[next.no] > dist[curNo] + next.w) {
 					dist[next.no] = dist[curNo] + next.w;
 					
-					pq.offer(new Node(next.no, dist[next.no]));
+					pq.add(new Node(next.no, dist[next.no]));
 				}
 			}
-			
 		}
 		
 		for (int i = 1; i < dist.length; i++) {
@@ -81,6 +77,7 @@ public class Main {
 				System.out.println(dist[i]);
 			}
 		}
+		
 	}
 
 }
