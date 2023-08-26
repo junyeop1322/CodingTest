@@ -5,7 +5,7 @@ public class Main {
 	
 	static int[][] map = new int[10][10];
 	static int[] paper = {0, 5, 5, 5, 5, 5};
-	static int ans = Integer.MAX_VALUE;
+	static int ans;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -17,6 +17,7 @@ public class Main {
 				map[i][j] = Integer.parseInt(st.nextToken());
 			}
 		}
+		ans = Integer.MAX_VALUE;
 		
 		dfs(0, 0, 0);
 		
@@ -53,7 +54,6 @@ public class Main {
 		} else {
 			dfs(x, y+1, cnt);
 		}
-		
 	}
 	
 	static void addPaper(int x, int y, int size, int state) {
