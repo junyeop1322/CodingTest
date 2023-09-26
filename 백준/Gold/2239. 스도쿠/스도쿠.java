@@ -1,80 +1,97 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class Main {
-	
-	static int[][] map = new int[9][9];
-	static boolean flag;
 
 	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		for (int i = 0; i < 9; i++) {
-			String str = br.readLine();
-			for (int j = 0; j < 9; j++) {
-				map[i][j] = str.charAt(j)-'0';
-			}
-		}
-		
-		dfs(0);
-		
-		for(int i = 0; i < 9; i++) {
-			for(int j = 0; j < 9; j++) {
-				System.out.print(map[i][j]);
-			}
-			System.out.println();
-		}
-		
-	}
-	
-	static void dfs(int d) {
-		if (d == 81) {
-			flag = true;
-			return;
-		}
-		
-		int x = d/9;
-		int y = d%9;
-		
-		if (map[x][y] != 0) {
-			dfs(d+1);
-		} else {
-			for (int i = 1; i < 10; i++) {
-				if (!check(x, y, i)) {
-					continue;
-				}
-				
-				map[x][y] = i;
-				dfs(d+1);
-				
-				if (flag) {
-					return;
-				}
-				map[x][y] = 0;
-			}
-		}
-	}
-	
-	static boolean check(int x, int y, int n) {
-		
-		for (int i = 0; i < 9; i++) {
-			if (map[i][y] == n || map[x][i] == n) {
-				return false;
-			}
-		}
-		
-		int sx = (x/3) * 3;
-		int sy = y - (y%3);
-		
-		for (int r = sx; r < sx+3; r++) {
-			for (int c = sy; c < sy+3; c++) {
-				if (map[r][c] == n) {
-					return false;
-				}
-			}
-		}
-		
-		return true;
-	}
+		// TODO Auto-generated method stub
 
+		int[][] map = new int[10][10];
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		ArrayList<int[]> list = new ArrayList<>();
+
+		for (int i = 1; i < 10; i++) {
+			String s = br.readLine();
+			for (int j = 1; j < 10; j++) {
+				map[i][j] = s.charAt(j-1) - '0';
+				if(map[i][j] == 0) {
+					list.add(new int[] {i, j});
+				}
+			}
+		}
+
+		int size = list.size();
+		int now = 0;
+
+		b : while ( now < size) {
+			int Y = list.get(now)[0];
+			int X = list.get(now)[1];
+
+			map[Y][X]++;
+			a : while(true) {
+				if(map[Y][X] > 9) {
+					map[Y][X] = 0;
+					now--;
+					continue b;
+				}
+				for(int i = 1; i < 10; i++) {
+					if ( map[Y][i] == map[Y][X] && i !=X ) {
+						map[Y][X]++;
+						if( map[Y][X] < 10 ) {
+							continue a;
+						} else {
+							map[Y][X] = 0;
+							now--;
+							continue b;
+						}
+					}
+				}
+
+				for(int i = 1; i < 10; i++) {
+					if ( map[i][X] == map[Y][X] && i !=Y ) {
+						map[Y][X]++;
+						if( map[Y][X] < 10 ) {
+							continue a;
+						} else {
+							map[Y][X] = 0;
+							now--;
+							continue b;
+						}
+					}
+				}
+
+				for(int i = 1; i < 4; i++) {
+					int tmpY = (Y-1)/3*3 +i;
+					for(int j = 1; j < 4; j++) {
+						int tmpX = (X-1)/3*3 +j;
+
+						if ( map[tmpY][tmpX] == map[Y][X] && !(tmpY == Y && tmpX == X) ) {
+							map[Y][X]++;
+							if( map[Y][X] < 10 ) {
+								continue a;
+							} else {
+								map[Y][X] = 0;
+								now--;
+								continue b;
+							}
+						}
+					}
+				}
+				
+				now++;
+				break;
+			}
+		}
+
+		        for (int i = 1; i < 10; i++) {
+		            for (int j = 1; j < 10; j++) {
+		                System.out.print(map[i][j]);
+		            }
+		            System.out.println();
+		        }
+
+	}
+	
 }
