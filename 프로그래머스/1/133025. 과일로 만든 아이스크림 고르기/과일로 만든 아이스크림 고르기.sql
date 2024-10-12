@@ -1,4 +1,3 @@
--- 코드를 입력하세요
 SELECT f.FLAVOR
 FROM FIRST_HALF as f
 join ICECREAM_INFO as i
