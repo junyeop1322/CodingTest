@@ -1,27 +1,27 @@
+import java.util.*;
+
 class Solution {
     boolean solution(String s) {
-        boolean answer = true;
-
-        int open = 0;
-        int close = 0;
+        Stack<Character> stk = new Stack<>();
         
         for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == '(') {
-                open++;
-            }
-            if (s.charAt(i) == ')') {
-                close++;
-            }
+            char ch = s.charAt(i);
             
-            if (open < close) {
-                return false;
+            if (ch == ')') {
+                if (stk.isEmpty()) {
+                    return false;
+                } else {
+                    stk.pop();
+                }
+            } else {
+                stk.push(ch);
             }
         }
         
-        if (open == close) {
-            return true;
+        if (!stk.isEmpty()) {
+            return false;
         }
         
-        return false;
+        return true;
     }
 }
