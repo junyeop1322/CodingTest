@@ -1,51 +1,37 @@
 import java.io.*;
 
 public class Main {
-	
-	static int n;
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
-		n = Integer.parseInt(br.readLine());
-		int s = Integer.parseInt(br.readLine());
-		String str = br.readLine();
+		int n = Integer.parseInt(br.readLine());
+		int m = Integer.parseInt(br.readLine());
 		
-		int ans = 0;
+		String str= br.readLine();
 		
-		for (int i = 0; i <= s - (n*2 + 1); i++) {
-			if (str.charAt(i) == 'I') {
-				if (check(i, str)) {
-					ans++;
+		int ans = 0, cnt = 0;
+		
+		
+		for (int i = 1; i < m -1; ) {
+			if (str.charAt(i) == 'O' && str.charAt(i+1) == 'I') {
+				cnt++;
+				if (cnt == n) {
+					if (str.charAt(i- (n*2-1)) == 'I') {
+						ans++;
+					}
+					cnt--;
 				}
+				
+				i += 2;
+			} else {
+				cnt = 0;
+				i++;
 			}
 		}
 
 		System.out.println(ans);
 	}
 	
-	static boolean check(int idx, String str) {
-		boolean chk = true;
-		
-		int cnt = 1;
-		for (int i = idx+1; i < idx + (n*2+1); i++) {
-			if (cnt % 2 == 1) {
-				if (str.charAt(i) != 'O') {
-					chk = false;
-					break;
-				}
-			} else {
-				if (str.charAt(i) != 'I') {
-					chk = false;
-					break;
-				}
-			}
-			
-			cnt++;
-		}
-		
-		return chk;
-	}
-
 }
