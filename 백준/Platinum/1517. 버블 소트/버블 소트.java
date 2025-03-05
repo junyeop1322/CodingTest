@@ -3,73 +3,67 @@ import java.util.*;
 
 public class Main {
 
-	static int n;
-	static long[] elements, index, tree;
+	static long ans = 0;
 	
 	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
+		StringTokenizer st = new StringTokenizer(br.readLine());
 		
-		n = Integer.parseInt(br.readLine());
-		elements = new long[n];
-		st = new StringTokenizer(br.readLine());
+		int n = Integer.parseInt(st.nextToken());
+		
+		long[] arr = new long[n];
+		long[] tmp = new long[n];
+		
+		st = new StringTokenizer(br.readLine(), " ");
 		for (int i = 0; i < n; i++) {
-			elements[i] = Integer.parseInt(st.nextToken());
+			arr[i] = Long.parseLong(st.nextToken());
 		}
 		
-		Map<Long, Integer> map = new HashMap<>();
-		for (int i = 0; i < n; i++) {
-			map.put(elements[i], i);
-		}
-		
-		index = elements.clone();
-		Arrays.sort(index);
-		
-		tree = new long[getTreeSize()];
-		long ans = 0;
-		
-		for (int i = 0; i < n; i++) {
-			int idx = map.get(index[i]);
-			ans += sum(0, n-1, 1, idx+1, n-1);
-			update(0, n-1, 1, idx, 1);
-		}
+		sort(arr, tmp, 0, arr.length-1);
 		
 		System.out.println(ans);
 	}
 	
-	static int getTreeSize() {
-		int h = (int)Math.ceil(Math.log(n)/Math.log(2)) + 1;
-		return (int)Math.pow(2, h) - 1;
+	static void sort(long[] arr, long[] tmp, int left, int right) {
+		if (left != right) {
+			int mid = (left + right) / 2;
+			sort(arr, tmp, left, mid);
+			sort(arr, tmp, mid+1, right);
+			merge(arr, tmp, left, right);
+		}
 	}
 	
-	static long sum(int start, int end, int node, int left, int right) {
-		if (end < left || right < start) {
-			return 0;
+	static void merge(long[] arr, long[] tmp, int left, int right) {
+		int m = (left + right) / 2;
+		int l = left;
+		int r = m+1;
+		int i = left;
+		
+		while(l <= m && r <= right) {
+			if (arr[l] > arr[r]) {
+				ans += (m-l+1);
+				tmp[i++] = arr[r++];
+			} else {
+				tmp[i++] = arr[l++];
+			}
 		}
 		
-		if (left <= start && end <= right) {
-			return tree[node];
+		if (l > m) {
+			while(r <= right) {
+				tmp[i++] = arr[r++];
+			}
 		}
 		
-		int mid = (start+end) / 2;
-		
-		return sum(start, mid, node*2, left, right) + sum(mid+1, end, node*2+1, left, right);
-	}
-	
-	static void update(int start, int end, int node, int idx, int dif) {
-		if (start == end) {
-			tree[node] = dif;
-			return;
+		if (r > l) {
+			while(l <= m) {
+				tmp[i++] = arr[l++];
+			}
 		}
 		
-		int mid = (start + end) / 2;
-		if (idx <= mid) {
-			update(start, mid, node*2, idx, dif);
-		} else {
-			update(mid+1, end, node*2+1, idx, dif);
+		for (int j = left; j <= right; j++) {
+			arr[j] = tmp[j];
 		}
-		
-		tree[node] = tree[node*2] + tree[node*2+1];
 	}
 
 }
