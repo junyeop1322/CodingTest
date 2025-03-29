@@ -2,71 +2,69 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
-	static int[] memo;
 	
+	static int[] list;
+
 	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
+		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 		StringBuilder sb = new StringBuilder();
 		
-		int n = Integer.parseInt(br.readLine());
+		int n = Integer.parseInt(st.nextToken());
 		int[] arr = new int[n];
-		
-		st = new StringTokenizer(br.readLine());
+
+		st = new StringTokenizer(br.readLine(), " ");
 		for (int i = 0; i < n; i++) {
 			arr[i] = Integer.parseInt(st.nextToken());
 		}
 		
-		memo = new int[n+1];
-		int[] ans = new int[n+1];
-		Arrays.fill(memo, Integer.MIN_VALUE);
-
+		list = new int[n+1];
+		list[0] = -1000000001;
+		
+		int[] dp = new int[n];
 		int len = 0;
 		int idx = 0;
 		
 		for (int i = 0; i < n; i++) {
-			if (arr[i] > memo[len]) {
-				len++;
-				memo[len] = arr[i];
-				ans[i+1] = len;
+			if (arr[i] > list[len]) {
+				dp[i] = ++len;
+				list[len] = arr[i];
 			} else {
-				idx = binarySearch(0, len, arr[i]);
-				memo[idx] = arr[i];
-				ans[i+1] = idx;
+				idx = binary(0, len, arr[i]);
+				list[idx] = arr[i];
+				dp[i] = idx;
 			}
 		}
 		
-		sb.append(len).append("\n");
-//		System.out.println(Arrays.toString(ans));
-		Stack<Integer> stack = new Stack<Integer>();
-		int num = len;
-		for (int i = n; i > 0; i--) {
-			if (ans[i] == num) {
-				stack.push(arr[i-1]);
-				num--;
+		sb.append(len + "\n");
+		
+		Stack<Integer> stk = new Stack<>();
+		for (int i = n-1; i >= 0; i--) {
+			if (dp[i] == len) {
+				stk.push(arr[i]);
+				len--;
 			}
 		}
 		
-		while(!stack.isEmpty()) {
-			sb.append(stack.pop() + " ");
+		while(!stk.isEmpty()) {
+			sb.append(stk.pop() + " ");
 		}
-		System.out.println(sb);
 		
+		System.out.println(sb.toString());
 	}
 	
-	static int binarySearch(int left, int right, int val) {
+	static int binary(int left, int right, int num) {
 		int mid = 0;
 		
 		while(left < right) {
-			mid = (left+right) / 2;
+			mid = (left + right) / 2;
 			
-			if (memo[mid] < val) {
+			if (list[mid] < num) {
 				left = mid+1;
 			} else {
 				right = mid;
 			}
-			
 		}
 		
 		return right;
